@@ -20,8 +20,11 @@ namespace FitnessPlanet.Domain
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
         [Required]
+        [Range(0, 5000)]
         public int Quantity { get; set; }
+        [Range(0, 3000)]
         public decimal Price { get; set; }
+        [Range(0, 30)]
         public decimal Discount { get; set; }
         public decimal TotalPrice
         {

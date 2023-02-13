@@ -12,7 +12,6 @@ namespace FitnessPlanet.Domain
         [Required]
         [MaxLength(30)]
         public string ProductName { get; set; }
-        public string Brand { get; set; }
         [Required]
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
@@ -20,12 +19,20 @@ namespace FitnessPlanet.Domain
         [Required]
         public int ManifacturerId { get; set; }
         public virtual Manifacturer Manifacturer { get; set; }
+
+        public string Description { get; set; }
+
         public string Picture { get; set; }
+
+        public string Color { get; set; }
+
         [Required]
         [Range(0,5000)]
         public int Quantity { get; set; }
         [Required]
+        [Range(0, 3000)]
         public decimal Price { get; set; }
+        [Range(0, 30)]
         public decimal Discount { get; set; }
         public virtual IEnumerable<Order> Orders { get; set; } = new List<Order>();
     }
