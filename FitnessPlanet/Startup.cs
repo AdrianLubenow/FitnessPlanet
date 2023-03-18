@@ -43,7 +43,15 @@ namespace FitnessPlanet
                 .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
-            //services.AddRazorPages();
+
+            services.AddTransient<IProductService, ProductService>();
+
+            services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<IManifacturerService, ManifacturerService>();
+
+
+            services.AddRazorPages();
+
             services.Configure<IdentityOptions>(option =>
             {
                 option.Password.RequireDigit = false;
@@ -54,9 +62,6 @@ namespace FitnessPlanet
                 option.Password.RequiredUniqueChars = 0;
             }
             );
-
-            services.AddTransient<ICategoryService, CategoryService>();
-            services.AddTransient<IManifacturerService, ManifacturerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
