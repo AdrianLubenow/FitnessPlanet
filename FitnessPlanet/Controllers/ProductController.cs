@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace FitnessPlanet.Controllers
 {
-    [Authorize(Roles ="Adminstrator")]
+    [Authorize(Roles ="Administrator")]
     public class ProductController : Controller
     {
         private readonly IProductService productService;
