@@ -49,6 +49,8 @@ namespace FitnessPlanet
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IManifacturerService, ManifacturerService>();
 
+            services.AddTransient<IStatisticsService, StatisticsService>();
+
 
             services.AddRazorPages();
 

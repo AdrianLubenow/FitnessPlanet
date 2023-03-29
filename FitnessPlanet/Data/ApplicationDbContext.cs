@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using FitnessPlanet.Models.Product;
 using FitnessPlanet.Models.Order;
+using FitnessPlanet.Models.Client;
 
 namespace FitnessPlanet.Data
 {
@@ -27,5 +28,7 @@ namespace FitnessPlanet.Data
         public DbSet<FitnessPlanet.Models.Product.ProductDeleteVM> ProductDeleteVM { get; set; }
         public DbSet<FitnessPlanet.Models.Order.OrderIndexVM> OrderIndexVM { get; set; }
         public DbSet<FitnessPlanet.Models.Order.OrderConfirmVM> OrderConfirmVM { get; set; }
+        public DbSet<FitnessPlanet.Models.Client.ClientIndexVM> ClientIndexVM { get; set; }
+        public DbSet<FitnessPlanet.Models.Client.ClientDeleteVM> ClientDeleteVM { get; set; }
     }
 }

@@ -6,6 +6,7 @@ using FitnessPlanet.Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,7 +51,7 @@ namespace FitnessPlanet.Controllers
                 var createdId = productService.Create(product.ProductName, product.ManifacturerId, product.CategoryId, product.Picture, product.Quantity, product.Price, product.Discount);
 
                 if (createdId)
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("CreateSuccess");
             }
             return View();
         }
@@ -169,13 +170,21 @@ namespace FitnessPlanet.Controllers
             var deleted = productService.RemoveById(id);
 
             if (deleted)
-                return this.RedirectToAction("Success");
+                return this.RedirectToAction("DeleteSuccess");
             else
                 return View();
         }
         public IActionResult Success()
         {
             return View();
+        }
+        public IActionResult CreateSuccess()
+        {
+            return this.View(); 
+        }
+        public IActionResult DeleteSuccess()
+        {
+            return this.View(); 
         }
     }
 }

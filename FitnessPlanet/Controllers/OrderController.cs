@@ -1,9 +1,11 @@
 ﻿using FitnessPlanet.Data;
 using FitnessPlanet.Domain;
 using FitnessPlanet.Models.Order;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -18,7 +20,7 @@ namespace FitnessPlanet.Controllers
         {
             this.context = context;
         }
-
+        [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
