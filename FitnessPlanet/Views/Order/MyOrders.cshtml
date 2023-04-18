@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<FitnessPlanet.Models.Order.OrderIndexVM>
 
 @{
-    ViewData["Title"] = "MyOrders";
+    ViewData["Title"] = "My Orders";
 }
 
-<h1>MyOrders</h1>
+<h1>My Orders</h1>
 
 <p>
     <a asp-controller="Product" asp-action="Index">Back to products</a>
@@ -31,6 +31,9 @@
                 @Html.DisplayNameFor(model => model.Picture)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Quantity)
             </th>
             <th>
@@ -41,6 +44,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th></th>
         </tr>
@@ -60,6 +66,9 @@
             <td>
                 <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image" width="100" />
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
@@ -72,6 +81,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.TotalPrice)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
         </tr>
 }
     </tbody>

@@ -14,19 +14,19 @@ namespace FitnessPlanet.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ApplicationDbContext context;
+        private readonly ApplicationDbContext _context;
 
         public OrderController(ApplicationDbContext context)
         {
-            this.context = context;
+            this._context = context;
         }
         [Authorize(Roles = "Administrator")]
         public IActionResult Index()
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = context.Users.SingleOrDefault(u=> u.Id == userId);
+            var user = _context.Users.SingleOrDefault(u=> u.Id == userId);
 
-            List<OrderIndexVM> orders = context.Orders.Select(x => new OrderIndexVM
+            List<OrderIndexVM> orders = _context.Orders.Select(x => new OrderIndexVM
             {
                 Id = x.Id,
                 OrderDate = x.OrderDate.ToString("dd-MMM,yyyy hh:mm", CultureInfo.InvariantCulture),
@@ -35,10 +35,12 @@ namespace FitnessPlanet.Controllers
                 ProductId = x.ProductId,
                 Product = x.Product.ProductName,
                 Picture = x.Product.Picture,
+                Color = x.Product.Color,
                 Quantity = x.Quantity,
                 Price = x.Price,
                 Discount = x.Discount,
                 TotalPrice = x.TotalPrice,
+                Description = x.Description
             }).ToList();
             return View(orders);
         }
@@ -46,12 +48,12 @@ namespace FitnessPlanet.Controllers
         public IActionResult MyOrders(string searchString)
         {
             string currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = this.context.Users.SingleOrDefault(u => u.Id == currentUserId);
+            var user = this._context.Users.SingleOrDefault(u => u.Id == currentUserId);
 
             if (user == null)
                 return null;
 
-            List<OrderIndexVM> orders = context.Orders.Where(x => x.UserId == user.Id).Select(x => new OrderIndexVM
+            List<OrderIndexVM> orders = _context.Orders.Where(x => x.UserId == user.Id).Select(x => new OrderIndexVM
             {
                 Id = x.Id,
                 OrderDate = x.OrderDate.ToString("dd-MMM,yyyy hh:mm", CultureInfo.InvariantCulture),
@@ -60,10 +62,12 @@ namespace FitnessPlanet.Controllers
                 ProductId = x.ProductId,
                 Product = x.Product.ProductName,
                 Picture = x.Product.Picture,
+                Color = x.Product.Color,
                 Quantity = x.Quantity,
                 Price = x.Price,
                 Discount = x.Discount,
                 TotalPrice = x.TotalPrice,
+                Description = x.Description
             }).ToList();
 
             if (!String.IsNullOrEmpty(searchString))
@@ -75,8 +79,8 @@ namespace FitnessPlanet.Controllers
         public ActionResult Create(int productId, int quantity)
         {
             string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var user = this.context.Users.SingleOrDefault(u => u.Id == userId);
-            var product = this.context.Products.SingleOrDefault(x => x.Id == productId);
+            var user = this._context.Users.SingleOrDefault(u => u.Id == userId);
+            var product = this._context.Products.SingleOrDefault(x => x.Id == productId);
 
             if (user == null || product == null || product.Quantity < quantity)
                 return this.RedirectToAction("Index", "Product");
@@ -88,11 +92,13 @@ namespace FitnessPlanet.Controllers
                 ProductId = productId,
                 ProductName = product.ProductName,
                 Picture = product.Picture,
+                Color = product.Color,
 
                 Quantity = quantity,
                 Price = product.Price,
                 Discount = product.Discount,
-                TotalPrice = quantity * product.Price - quantity * product.Price * product.Discount / 100
+                TotalPrice = quantity * product.Price - quantity * product.Price * product.Discount / 100,
+                Description = product.Description
             };
             return View(orderForDb);
         }
@@ -104,11 +110,11 @@ namespace FitnessPlanet.Controllers
             if(this.ModelState.IsValid)
             {
                 string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = this.context.Users.SingleOrDefault(u => u.Id == userId);
-                var product = this.context.Products.SingleOrDefault(x => x.Id == bindingModel.ProductId);
+                var user = this._context.Users.SingleOrDefault(u => u.Id == userId);
+                var product = this._context.Products.SingleOrDefault(x => x.Id == bindingModel.ProductId);
 
                 if (user == null || product == null || product.Quantity < bindingModel.Quantity || bindingModel.Quantity == 0)
-                    return this.RedirectToAction("Index", "Product");
+                { return this.RedirectToAction("Index", "Product"); }
 
                 Order orderForDb = new Order
                 {
@@ -118,12 +124,15 @@ namespace FitnessPlanet.Controllers
                     Quantity = bindingModel.Quantity,
                     Price = product.Price,
                     Discount = product.Discount,
+                    Description = product.Description,
+                    Color = product.Color
+
                 };
 
                 product.Quantity -= bindingModel.Quantity;
-                this.context.Products.Update(product);
-                this.context.Orders.Add(orderForDb);
-                this.context.SaveChanges();
+                this._context.Products.Update(product);
+                this._context.Orders.Add(orderForDb);
+                this._context.SaveChanges();
             }
             return this.RedirectToAction("Index", "Product");
         }

@@ -15,6 +15,7 @@ namespace FitnessPlanet.Models.Order
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string Picture { get; set; }
+        public string Color { get; set; }
         [Required]
         [Range(1, int.MaxValue)]
         [Display(Name="Quantity")]
@@ -22,5 +23,6 @@ namespace FitnessPlanet.Models.Order
         public decimal Price { get; set; }
         public decimal Discount { get; set; }
         public decimal TotalPrice { get; set; }
+        public string Description { get; set; }
     }
 }

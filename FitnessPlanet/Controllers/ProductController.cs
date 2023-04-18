@@ -48,7 +48,7 @@ namespace FitnessPlanet.Controllers
         {
             if (ModelState.IsValid)
             {
-                var createdId = productService.Create(product.ProductName, product.ManifacturerId, product.CategoryId, product.Picture, product.Quantity, product.Price, product.Discount);
+                var createdId = productService.Create(product.ProductName, product.ManifacturerId, product.CategoryId, product.Picture, product.Color, product.Quantity, product.Price, product.Discount, product.Description);
 
                 if (createdId)
                     return RedirectToAction("CreateSuccess");
@@ -68,9 +68,11 @@ namespace FitnessPlanet.Controllers
                 CategoryId = product.CategoryId,
                 CategoryName = product.Category.CategoryName,
                 Picture = product.Picture,
+                Color = product.Color,
                 Quantity = product.Quantity,
                 Price = product.Price,
-                Discount = product.Discount
+                Discount = product.Discount,
+                Description = product.Description
             }).ToList();
             return this.View(products);
         }
@@ -88,9 +90,11 @@ namespace FitnessPlanet.Controllers
                 ManifacturerId = product.ManifacturerId,
                 CategoryId = product.CategoryId,
                 Picture = product.Picture,
+                Color = product.Color,
                 Quantity = product.Quantity,
                 Price = product.Price,
-                Discount = product.Discount
+                Discount = product.Discount,
+                Description = product.Description
             };
             updatedProduct.Categories = categoryService.GetCategories().Select(c => new CategoryPairVM()
             {
@@ -107,8 +111,8 @@ namespace FitnessPlanet.Controllers
             {
                 if(ModelState.IsValid)
                 {
-                    var updated = productService.Update(id, product.ProductName, product.ManifacturerId, product.CategoryId, product.Picture, product.Quantity, product.Price,
-                        product.Discount);
+                    var updated = productService.Update(id, product.ProductName, product.ManifacturerId, product.CategoryId, product.Picture, product.Color, product.Quantity, product.Price,
+                        product.Discount, product.Description);
 
                     if (updated)
                         return this.RedirectToAction("Index");
@@ -134,9 +138,11 @@ namespace FitnessPlanet.Controllers
                 CategoryId = item.CategoryId,
                 CategoryName = item.Category.CategoryName,
                 Picture = item.Picture,
+                Color = item.Color,
                 Quantity = item.Quantity,
                 Price = item.Price,
-                Discount = item.Discount
+                Discount = item.Discount,
+                Description = item.Description
             };
             return View(product);
         }
@@ -156,9 +162,11 @@ namespace FitnessPlanet.Controllers
                 CategoryId = item.CategoryId,
                 CategoryName = item.Category.CategoryName,
                 Picture = item.Picture,
+                Color = item.Color,
                 Quantity = item.Quantity,
                 Price = item.Price,
-                Discount = item.Discount
+                Discount = item.Discount,
+                Description = item.Description
             };
             return View(product);
         }

@@ -31,6 +31,8 @@ namespace FitnessPlanet.Models.Product
 
         [Display(Name ="Picture")]
         public string Picture { get; set; }
+        [Display(Name ="Color")]
+        public string Color { get; set; }
         [Required]
         [Range(0, 1000)]
         [Display(Name ="Quantity")]
@@ -40,5 +42,7 @@ namespace FitnessPlanet.Models.Product
         public decimal Price { get; set; }
         [Display(Name ="Discount")]
         public decimal Discount { get; set; }
+        [Display(Name ="Description")]
+        public string Description { get; set; }
     }
 }

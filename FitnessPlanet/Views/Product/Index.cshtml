@@ -27,20 +27,17 @@
             <th>
                 @Html.DisplayNameFor(model => model.ProductName)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.ManifacturerId)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.ManifacturerName)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.CategoryName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Quantity)
@@ -51,10 +48,11 @@
             <th>
                 @Html.DisplayNameFor(model => model.Discount)
             </th>
+            <th></th>
             @if(this.User.Identity.IsAuthenticated)
             {
                 <th>
-                    Order
+                    
                 </th>
             }
             <th></th>
@@ -82,6 +80,9 @@
                 <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image" width="100" />
                 @*Html.DisplayFor(modelItem => item.Picture)*@
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Color)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quantity)
             </td>
@@ -89,7 +90,7 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Discount)
+                @Html.DisplayFor(modelItem => item.Discount) %
             </td>
             @if (this.User.Identity.IsAuthenticated)
                 {
@@ -100,6 +101,7 @@
                         })
                     </td>
                 }
+                <td></td>
                 <td>
                 @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
                     {

@@ -23,7 +23,7 @@ namespace FitnessPlanet.Domain
         public string Description { get; set; }
 
         public string Picture { get; set; }
-
+        [Required]
         public string Color { get; set; }
 
         [Required]

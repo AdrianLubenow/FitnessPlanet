@@ -20,6 +20,8 @@ namespace FitnessPlanet.Domain
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
         [Required]
+        public string Color { get; set; }
+        [Required]
         [Range(0, 5000)]
         public int Quantity { get; set; }
         [Range(0, 3000)]
@@ -33,5 +35,6 @@ namespace FitnessPlanet.Domain
                 return Quantity * Price - Quantity * Price * Discount / 100;
             }
         }
+        public string Description { get; set; }
     }
 }

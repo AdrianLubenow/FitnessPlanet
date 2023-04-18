@@ -15,7 +15,7 @@ namespace FitnessPlanet.Services
         {
             _context = context;
         }
-        public bool Create(string name, int manifacturerId, int categoryId, string picture, int quantity, decimal price, decimal discount)
+        public bool Create(string name, int manifacturerId, int categoryId, string picture, string color, int quantity, decimal price, decimal discount, string description)
         {
             Product item = new Product
             {
@@ -26,7 +26,10 @@ namespace FitnessPlanet.Services
                 Picture = picture,
                 Quantity = quantity,
                 Price = price,
-                Discount = discount
+                Discount = discount,
+                Description = description,
+                Color = color
+
             };
 
             _context.Products.Add(item);
@@ -70,20 +73,22 @@ namespace FitnessPlanet.Services
             return products;
         }
 
-        public bool Update(int productId, string name, int manifacturerId, int categoryId, string picture, int quantity, decimal price, decimal discount)
+        public bool Update(int productId, string name, int manifacturerId, int categoryId, string picture, string color, int quantity, decimal price, decimal discount, string description)
         {
             var product = GetProductById(productId);
             if (product == default(Product))
-                return false;
+            { return false; }
 
             product.ProductName = name;
             product.Manifacturer = _context.Manifacturers.Find(manifacturerId);
             product.Category = _context.Categories.Find(categoryId);
 
             product.Picture = picture;
+            product.Color = color;
             product.Quantity = quantity;
             product.Price = price;
             product.Discount = discount;
+            product.Description = description;
 
             _context.Update(product);
             return _context.SaveChanges() != 0;

@@ -22,5 +22,9 @@ namespace FitnessPlanet.Models.Product
         [Display(Name ="Discount")]
         public decimal Discount { get; set; }
 
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+        [Display(Name = "Color")]
+        public string Color { get; set; }
     }
 }
