@@ -7,6 +7,9 @@
     .card-img-top {
         height: 100%;
     }
+    .card-body * {
+        font-weight:bold;
+    }
 </style>
 
 <center>
@@ -18,7 +21,7 @@
             <img src="@Html.DisplayFor(modelItem => Model.Picture)" class="card-img-top" alt="@Model.ProductName">
         </div>
         <div class="col-md-8">
-            <div class="card mb-3" style="width: 70%; margin-left: auto; padding-left: 20px; padding-right: 20px; padding-top: 20px; padding-bottom: 20px; margin-right: 20px;">
+            <div class="card mb-3" style="width: 70%; margin-left: auto; padding-left: 20px; padding-right: 20px; padding-top: 20px; padding-bottom: 20px; margin-right: 20px; background-color: #ffb88c;">
                 <div class="card-header">
                     <h5 class="card-title">@Model.ProductName</h5>
                     <h6 class="card-subtitle mb-2 text-muted">@Model.CategoryName - manufactured by: @Model.ManifacturerName</h6>

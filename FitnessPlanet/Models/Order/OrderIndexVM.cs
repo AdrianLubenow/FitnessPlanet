@@ -15,6 +15,7 @@ namespace FitnessPlanet.Models.Order
         public string Color { get; set; }
         public int Quantity { get; set; }
         public decimal Price { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal Discount { get; set; }
         public decimal TotalPrice { get; set; }
         public string Description { get; set; }

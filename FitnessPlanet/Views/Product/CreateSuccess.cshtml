@@ -2,11 +2,28 @@
     ViewData["Title"] = "CreateSuccess";
 }
 
-<h1>You successfully added a product</h1>
-<div>
-    <a asp-action="Create">Add a new product</a>
-</div>
+<style>
+    .card {
+        background-color: #ffb88c;
+    }
+</style>
 
-<div>
-    <a asp-action="Index">Show all products</a>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <center><h3>Create Product</h3></center>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title">Product created successfully</h5>
+                    <p class="card-text">You have successfully created a new product.</p>
+                </div>
+                <div class="card-footer d-flex justify-content-center">
+                    <a asp-action="Create" class="btn btn-primary mr-2">Create Another Product</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

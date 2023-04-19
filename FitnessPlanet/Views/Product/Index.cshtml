@@ -164,7 +164,7 @@
         {
             <div class="col-md-4 col-sm-6 mb-4">
                 <div class="card h-100">
-                    <div class="sold-out" style="opacity: 1; display: @((item.Quantity < 1) ? "flex" : "none");">
+                    <div class="sold-out" style="background-color: darkred; opacity: 1; display: @((item.Quantity < 1) ? "flex" : "none");">
                         <div class="sold-out-text" style="color: black; font-weight: bold; text-align: center; line-height: 100%;">SOLD OUT</div>
                     </div>
                     <img src="@Html.DisplayFor(modelItem => item.Picture)" class="card-img-top" alt="@item.ProductName">
