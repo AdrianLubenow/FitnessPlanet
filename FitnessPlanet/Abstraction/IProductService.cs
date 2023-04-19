@@ -11,6 +11,6 @@ namespace FitnessPlanet.Abstraction
         List<Product> GetProducts();
         Product GetProductById(int productId);
         bool RemoveById(int machineproductId);
-        List<Product> GetProducts(string searchStringCategoryName, string searchStringManifacturerName);
+        List<Product> GetProductsByCategoryAndManifacturer(string categoryName, string manifacturerName);
     }
 }

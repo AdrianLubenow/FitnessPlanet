@@ -3,6 +3,7 @@ using FitnessPlanet.Domain;
 using FitnessPlanet.Models.Order;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -82,8 +83,12 @@ namespace FitnessPlanet.Controllers
             var user = this._context.Users.SingleOrDefault(u => u.Id == userId);
             var product = this._context.Products.SingleOrDefault(x => x.Id == productId);
 
-            if (user == null || product == null || product.Quantity < quantity)
-                return this.RedirectToAction("Index", "Product");
+            if (user == null || product == null || quantity < 1 || quantity > product.Quantity)
+            {
+                TempData["ErrorMessage"] = $"The quantity should be between 1 and {product.Quantity}.";
+
+                return RedirectToAction("Index", "Product");
+            }
 
             OrderConfirmVM orderForDb = new OrderConfirmVM
             {
@@ -107,34 +112,33 @@ namespace FitnessPlanet.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(OrderConfirmVM bindingModel)
         {
-            if(this.ModelState.IsValid)
-            {
-                string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = this._context.Users.SingleOrDefault(u => u.Id == userId);
-                var product = this._context.Products.SingleOrDefault(x => x.Id == bindingModel.ProductId);
-
-                if (user == null || product == null || product.Quantity < bindingModel.Quantity || bindingModel.Quantity == 0)
-                { return this.RedirectToAction("Index", "Product"); }
-
-                Order orderForDb = new Order
+                if (this.ModelState.IsValid)
                 {
-                    OrderDate = DateTime.UtcNow,
-                    ProductId = bindingModel.ProductId,
-                    UserId = userId,
-                    Quantity = bindingModel.Quantity,
-                    Price = product.Price,
-                    Discount = product.Discount,
-                    Description = product.Description,
-                    Color = product.Color
+                    string userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    var user = this._context.Users.SingleOrDefault(u => u.Id == userId);
+                    var product = this._context.Products.SingleOrDefault(x => x.Id == bindingModel.ProductId);
 
-                };
+                    if (user == null || product == null || product.Quantity < bindingModel.Quantity || bindingModel.Quantity == 0)
+                    { return this.RedirectToAction("Index", "Product"); }
 
-                product.Quantity -= bindingModel.Quantity;
-                this._context.Products.Update(product);
-                this._context.Orders.Add(orderForDb);
-                this._context.SaveChanges();
-            }
-            return this.RedirectToAction("Index", "Product");
+                    Order orderForDb = new Order
+                    {
+                        OrderDate = DateTime.UtcNow,
+                        ProductId = bindingModel.ProductId,
+                        UserId = userId,
+                        Quantity = bindingModel.Quantity,
+                        Price = product.Price,
+                        Discount = product.Discount,
+                        Description = product.Description,
+                        Color = product.Color
+                    };
+
+                    product.Quantity -= bindingModel.Quantity;
+                    this._context.Products.Update(product);
+                    this._context.Orders.Add(orderForDb);
+                    this._context.SaveChanges();
+                }
+                return this.RedirectToAction("Index", "Product");
         }
     }
 }

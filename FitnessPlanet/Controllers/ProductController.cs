@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Razor.Compilation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,9 +58,36 @@ namespace FitnessPlanet.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Index(string searchStringCategoryName, string searchStringManifacturerName)
+        public ActionResult Index(string searchStringCategoryName, string searchStringManifacturerName, string selectedManifacturer = null, string selectedCategory = null)
         {
-            List<ProductIndexVM> products = productService.GetProducts(searchStringCategoryName, searchStringManifacturerName).Select(product => new ProductIndexVM
+            ViewBag.Categories = categoryService.GetCategories().Select(x => new CategoryPairVM()
+            {
+                Id = x.Id,
+                Name = x.CategoryName
+            }).ToList();
+
+            ViewBag.Manifacturers = manifacturerService.GetManifacturers().Select(x => new ManifacturerPairVM()
+            {
+                Id = x.Id,
+                Name = x.ManifacturerName
+            }).ToList();
+
+            ViewData["searchStringCategoryName"] = searchStringCategoryName;
+            ViewData["searchStringManifacturerName"] = searchStringManifacturerName;
+
+            var products = productService.GetProductsByCategoryAndManifacturer(searchStringCategoryName, searchStringManifacturerName);
+
+            if (!string.IsNullOrWhiteSpace(selectedManifacturer))
+            {
+                products = products.Where(p => string.Equals(p.Manifacturer.ManifacturerName, selectedManifacturer, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(selectedCategory))
+            {
+                products = products.Where(p => string.Equals(p.Category.CategoryName, selectedCategory, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            var productViewModels = products.Select(product => new ProductIndexVM
             {
                 Id = product.Id,
                 ProductName = product.ProductName,
@@ -74,7 +102,8 @@ namespace FitnessPlanet.Controllers
                 Discount = product.Discount,
                 Description = product.Description
             }).ToList();
-            return this.View(products);
+
+            return View(productViewModels);
         }
         public ActionResult Edit(int id)
         {
@@ -96,6 +125,11 @@ namespace FitnessPlanet.Controllers
                 Discount = product.Discount,
                 Description = product.Description
             };
+            updatedProduct.Manifacturers = manifacturerService.GetManifacturers().Select(x => new ManifacturerPairVM()
+            {
+                Id = x.Id,
+                Name = x.ManifacturerName
+            }).ToList();
             updatedProduct.Categories = categoryService.GetCategories().Select(c => new CategoryPairVM()
             {
                 Id = c.Id,
@@ -134,7 +168,7 @@ namespace FitnessPlanet.Controllers
                 Id = item.Id,
                 ProductName = item.ProductName,
                 ManifacturerId = item.ManifacturerId,
-                ManufacturerName = item.Manifacturer.ManifacturerName,
+                ManifacturerName = item.Manifacturer.ManifacturerName,
                 CategoryId = item.CategoryId,
                 CategoryName = item.Category.CategoryName,
                 Picture = item.Picture,
@@ -158,7 +192,7 @@ namespace FitnessPlanet.Controllers
                 Id = item.Id,
                 ProductName = item.ProductName,
                 ManifacturerId = item.ManifacturerId,
-                ManufacturerName = item.Manifacturer.ManifacturerName,
+                ManifacturerName = item.Manifacturer.ManifacturerName,
                 CategoryId = item.CategoryId,
                 CategoryName = item.Category.CategoryName,
                 Picture = item.Picture,

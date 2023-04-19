@@ -2,121 +2,242 @@
 @using FitnessPlanet.Models.Order
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Products";
 }
 
-<h1>Index</h1>
-
-@if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
-{
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-}
-<form asp-controller ="Product" asp-action="Index" method="get">
-    <p>
-        Manifacturer: <input type="text" name="SearchStringManifacturerName" />
-        Category: <input type="text" name="SearchStringCategoryName" />
-
-        <input type ="submit" value="Filter" />
-    </p>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ManifacturerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Picture)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discount)
-            </th>
-            <th></th>
-            @if(this.User.Identity.IsAuthenticated)
-            {
-                <th>
-                    
-                </th>
+@{
+            var buttonStyle = "background-color: #007bff; color: #fff; padding: 5px 10px; border-radius: 5px; text-decoration: none;";
             }
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.ManifacturerId)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.ManifacturerName)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryName)
-            </td>
-            <td>
-                <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image" width="100" />
-                @*Html.DisplayFor(modelItem => item.Picture)*@
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Color)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount) %
-            </td>
-            @if (this.User.Identity.IsAuthenticated)
-                {
-                    <td>
-                        @await Html.PartialAsync("_OrderPartialView", new OrderConfirmVM
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"]</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+
+
+
+    <style>
+        .btn-primary {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+            .btn-primary:hover {
+                background-color: #c82333;
+                border-color: #bd2130;
+            }
+
+            .btn-primary:focus,
+            .btn-primary.focus {
+                box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.5);
+            }
+
+        .btn-danger {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+            .btn-danger:hover {
+                background-color: #0069d9;
+                border-color: #0062cc;
+            }
+
+            .btn-danger:focus,
+            .btn-danger.focus {
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+            }
+        .footer {
+            position: relative;
+        }
+
+        .sold-out {
+            display: none;
+        }
+
+        .card:hover .sold-out {
+            display: flex;
+        }
+
+        .sold-out-text {
+            width: 100%;
+        }
+
+        .card {
+            transition: transform .2s;
+        }
+
+            .card:hover {
+                transform: scale(1.04);
+                box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1);
+            }
+
+        .animated-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+            .animated-btn::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background-color: rgba(255, 255, 255, 0.5);
+                border-radius: 100%;
+                transform: translate(-50%, -50%);
+                transition: width 0.3s ease-out, height 0.3s ease-out;
+                z-index: -1;
+            }
+
+            .animated-btn:hover::before {
+                width: 300%;
+                height: 300%;
+            }
+
+            .animated-btn:active::before {
+                background-color: rgba(255, 255, 255, 0.8);
+            }
+
+    </style>
+</head>
+
+<body>
+
+    <center><h1>Products</h1></center>
+
+
+    @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
+    {
+        <a asp-action="Create" class="btn btn-primary" style="@buttonStyle">Create new products</a>
+    }
+
+    @using (Html.BeginForm("Index", "Product", FormMethod.Get))
+    {
+        @Html.Hidden("searchStringCategoryName", ViewData["searchStringCategoryName"])
+        @Html.Hidden("searchStringManifacturerName", ViewData["searchStringManifacturerName"])
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="selectedCategory">Category:</label>
+                    @Html.DropDownList("selectedCategory", new SelectList(ViewBag.Categories, "Name", "Name"), "All", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="selectedManifacturer">Manifacturer:</label>
+                    @Html.DropDownList("selectedManifacturer", new SelectList(ViewBag.Manifacturers, "Name", "Name"), "All", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn btn-primary form-control">Filter</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 col-sm-6 mb-4">
+                <div class="card h-100">
+                    <div class="sold-out" style="background-color: red; opacity: 1; display: @((item.Quantity < 1) ? "flex" : "none");">
+                        <div class="sold-out-text" style="color: black; font-weight: bold; text-align: center; line-height: 100%;">SOLD OUT</div>
+                    </div>
+                    <img src="@Html.DisplayFor(modelItem => item.Picture)" class="card-img-top" alt="@item.ProductName">
+                    <div class="card-body">
+                        <h3 class="card-title">@item.ProductName</h3>
+                        <h5 class="card-title">Manifacturer: @item.ManifacturerName</h5>
+                        <p class="card-text">@item.Description</p>
+                        <p class="card-text">Quantity: @item.Quantity</p>
+                        <p class="card-text">Price: $@item.Price</p>
+                        @if (item.Discount > 0)
                         {
-                            ProductId = item.Id
-                        })
-                    </td>
-                }
-                <td></td>
-                <td>
-                @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">|Edit|</a>
-                    }
-                    <a asp-action="Details" asp-route-id="@item.Id">|Details|</a>
-                    @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
-                    {
-                        <a asp-action="Delete" asp-route-id="@item.Id">|Delete|</a>
-                    }
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+                            <p class="card-text">Discount: @item.Discount%</p>
+                        }
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex flex-wrap justify-content-between">
+                            @if (this.User.Identity.IsAuthenticated)
+                            {
+                                <form asp-controller="Order" asp-action="Create" method="get">
+                                    <div class="d-flex align-items-center">
+                                        <label class="font-weight-bold text-left mr-1" for="quantity">Quantity:</label>
+                                        <div class="mr-1">
+                                            <input class="form-control" type="number" min="1" id="quantity" name="quantity" />
+                                            <span class="text-danger"></span>
+                                        </div>
+                                        <input type="hidden" name="productId" value="@item.Id" />
+                                        @if (item.Quantity < 1)
+                                        {
+                                            <button type="button" class="btn btn-primary order-btn" data-product="@item.ProductName">Order</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn btn-primary">Order</button>
+                                        }
+                                    </div>
+                                </form>
+
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-secondary">Details</a>
+                            @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-danger" style="transition: all 0.3s ease-in-out;">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger" style="transition: all 0.3s ease-in-out;">Delete</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    @section Scripts {
+        <script>
+            $(document).ready(function () {
+                $('.order-btn').on('click', function () {
+                    var productName = $(this).data('product');
+                    alert('Product "' + productName + '" is sold out.');
+                });
+            });
+        </script>
+
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        }
+        <script>
+            $(document).ready(function () {
+                $(".alert").fadeTo(2000, 500).slideUp(500, function () {
+                    $(".alert").slideUp(500);
+                });
+            });
+        </script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNSgKqt" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    }
+</body>

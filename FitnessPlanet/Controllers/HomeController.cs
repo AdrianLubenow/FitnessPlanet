@@ -33,5 +33,11 @@ namespace FitnessPlanet.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [HttpPost]
+        public IActionResult SoldOutMessage(string message)
+        {
+            TempData["Message"] = message;
+            return Ok();
+        }
     }
 }

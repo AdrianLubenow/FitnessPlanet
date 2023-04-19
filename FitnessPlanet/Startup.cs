@@ -51,6 +51,7 @@ namespace FitnessPlanet
 
             services.AddTransient<IStatisticsService, StatisticsService>();
 
+            services.AddLogging();
 
             services.AddRazorPages();
 
@@ -89,11 +90,22 @@ namespace FitnessPlanet
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+            //    endpoints.MapRazorPages();
+            //});
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "order",
+                    pattern: "Order/{action=Index}/{id?}",
+                    defaults: new { controller = "Order" });
                 endpoints.MapRazorPages();
             });
         }

@@ -1,9 +1,13 @@
 ﻿using FitnessPlanet.Abstraction;
 using FitnessPlanet.Data;
 using FitnessPlanet.Domain;
+using Humanizer;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FitnessPlanet.Services
 {
@@ -56,21 +60,21 @@ namespace FitnessPlanet.Services
             return _context.SaveChanges() != 0;
         }
 
-        public List<Product> GetProducts(string searchStringCategoryName, string searchStringManifacturernName)
+        public List<Product> GetProductsByCategoryAndManifacturer(string categoryName, string manifacturerName)
         {
-            List<Product> products = _context.Products.ToList();
+            IQueryable<Product> query = _context.Products.Include(p => p.Category).Include(p => p.Manifacturer);
 
-            if (!String.IsNullOrEmpty(searchStringCategoryName) && !String.IsNullOrEmpty(searchStringManifacturernName))
+            if (!string.IsNullOrWhiteSpace(categoryName) && categoryName != "All")
             {
-                products = products.Where(x => x.Category.CategoryName.ToLower().Contains(searchStringCategoryName.ToLower())
-                && x.Manifacturer.ManifacturerName.ToLower().Contains(searchStringManifacturernName.ToLower())).ToList();
+                query = query.Where(p => p.Category.CategoryName.ToLower() == categoryName.ToLower());
             }
-            else if (!String.IsNullOrEmpty(searchStringCategoryName))
-                products = products.Where(x => x.Category.CategoryName.ToLower().Contains(searchStringCategoryName.ToLower())).ToList();
-            else if (!String.IsNullOrEmpty(searchStringManifacturernName))
-                products = products.Where(x => x.Manifacturer.ManifacturerName.ToLower().Contains(searchStringManifacturernName.ToLower())).ToList();
 
-            return products;
+            if (!string.IsNullOrWhiteSpace(manifacturerName) && manifacturerName != "All")
+            {
+                query = query.Where(p => p.Manifacturer.ManifacturerName.ToLower() == manifacturerName.ToLower());
+            }
+
+            return query.ToList();
         }
 
         public bool Update(int productId, string name, int manifacturerId, int categoryId, string picture, string color, int quantity, decimal price, decimal discount, string description)

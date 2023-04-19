@@ -1,66 +1,145 @@
 ﻿@model FitnessPlanet.Models.Order.OrderConfirmVM
 
 @{
-    ViewData["Title"] = "Confirm";
+    ViewData["Title"] = "Confirm Order";
 }
 
-<h1>Confirm</h1>
-
-<form asp-controller="Order" asp-action="Create" method="post">
-<div> 
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ProductName) 
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Picture) 
-        </dt>
-        <dd class = "col-sm-10">
-            <img src="@Html.DisplayFor(model => model.Picture)" alt="Image" width="100" />
-        </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Color) 
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Color)
-            </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity) 
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Price) 
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Discount) 
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Discount)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TotalPrice) 
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TotalPrice)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description) 
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-    </dl>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <center><h3>Confirm Your Order</h3></center>
+                </div>
+                <div class="card-body text-center">
+                    <img src="@Url.Content(Model.Picture)" class="img-fluid rounded mb-3" style="max-height: 300px;" alt="@Model.ProductName">
+                    <h5 class="card-title">@Model.ProductName</h5>
+                    <p class="card-text">@Model.Description</p>
+                    <hr>
+                    <h5 class="card-title">Order Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Quantity:</strong> @Model.Quantity</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Price:</strong> @Model.Price</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Discount:</strong> @Model.Discount %</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Total:</strong> $@Model.TotalPrice.ToString("N2")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-center">
+                    <form asp-controller="Order" asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" value="Confirm" asp-controller="Order" class="btn btn-primary mr-2">Place Order</button>
+                        <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
+                        <input type="hidden" asp-for="Quantity" value="@Model.Quantity" />
+                        <input type="hidden" asp-for="UserId" value="@Model.UserId" />
+                        <input type="hidden" asp-for="Price" value="@Model.Price" />
+                        <input type="hidden" asp-for="Discount" value="@Model.Discount" />
+                    </form>
+                    <a asp-action="Index" asp-controller="Product" class="btn btn-secondary ml-2">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="form-group">
+@*<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0">Order Confirmation</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <img src="@Html.DisplayFor(modelItem => Model.Picture)" class="card-img-top" alt="@Model.ProductName">
+                        </div>
+                        <div class="col-md-7">
+                            <h4>@Model.ProductName</h4>
+                            <p class="mb-1">@Model.Description</p>
+                            <p class="mb-1">Color: @Model.Color</p>
+                            <p class="mb-1">Quantity: @Model.Quantity</p>
+                            <p class="mb-1">Price: $@Model.Price</p>
+                            <p class="mb-1">Total Price: $@(string.Format("{0:N2}", Model.Price * Model.Quantity))</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <a asp-action="PlaceOrder" asp-route-id="@Model.Id" class="btn btn-danger float-right">Place Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+@*<div class="container">
+    <h2>Confirm Order</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Product Details</h4>
+            <hr />
+            <div>
+                <img src="@Model.Picture" alt="@Model.ProductName" class="img-thumbnail" style="width:300px; height: 200px" />
+            </div>
+            <div class="form-group">
+                <label>Name:</label>
+                <p>@Model.ProductName</p>
+            </div>
+            <div class="form-group">
+                <label>Price:</label>
+                <p>@Model.Price.ToString("C")</p>
+            </div>
+            <div class="form-group">
+                <label>Discount:</label>
+                <p>@Model.Discount.ToString("F")%</p>
+            </div>
+            <div class="form-group">
+                <label>Color:</label>
+                <p>@Model.Color</p>
+            </div>
+            <div class="form-group">
+                <label>Description:</label>
+                <p>@Model.Description</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Order Details</h4>
+            <hr />
+            <div class="form-group">
+                <label>Quantity:</label>
+                <p>@Model.Quantity</p>
+            </div>
+            <div class="form-group">
+                <label>Total Price:</label>
+                <p>@Model.TotalPrice.ToString("C")</p>
+            </div>
+            <div class="form-group">
+                <label>User:</label>
+                <p>@Model.User</p>
+            </div>
+            <div class="form-group">
+                <label>Order Date:</label>
+                <p>@DateTime.UtcNow.ToString()</p>
+            </div>
+            <div class="form-group">
+                <form method="post">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-success">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>*@
+@*<div class="form-group">
     <input type="submit" value="Confirm" class="btn btn-primary" />
 </div>
     <input type="hidden" asp-for="ProductId" value="@Model.ProductId" />
@@ -68,7 +147,7 @@
     <input type="hidden" asp-for="UserId" value="@Model.UserId" />
     <input type="hidden" asp-for="Price" value="@Model.Price" />
     <input type="hidden" asp-for="Discount" value="@Model.Discount" />
-</form>
+</>
 <div>
     <a asp-controller="Product" asp-action="Index">Back to List</a>
-</div>
+</div>*@

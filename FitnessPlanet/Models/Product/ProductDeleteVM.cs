@@ -10,7 +10,7 @@ namespace FitnessPlanet.Models.Product
         public string ProductName { get; set; }
         public int ManifacturerId { get; set; }
         [Display(Name = "Manifacturer")]
-        public string ManufacturerName { get; set; }
+        public string ManifacturerName { get; set; }
         public int CategoryId { get; set; }
         [Display(Name = "Category")]
         public string CategoryName { get; set; }

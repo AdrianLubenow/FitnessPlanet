@@ -19,7 +19,6 @@
             </div>
             <div class="form-group">
                 <label asp-for="ManifacturerId" class="control-label"></label>
-                @*<input asp-for="ManifacturerId" class="form-control" />*@
                 <select asp-for="ManifacturerId" class="form-control text-center">
                     @foreach(var manifacturer in Model.Manifacturers)
                     {
@@ -30,7 +29,6 @@
             </div>
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
-                @*<input asp-for="CategoryId" class="form-control" />*@
                 <select asp-for="CategoryId" class="form-control text-center">
                     @foreach(var category in Model.Categories)
                     {
