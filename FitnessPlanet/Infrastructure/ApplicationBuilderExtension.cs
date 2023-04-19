@@ -54,7 +54,7 @@ namespace FitnessPlanet.Infrastructure
                 ApplicationUser user = new ApplicationUser();
                 user.FirstName = "admin";
                 user.LastName = "admin";
-                user.PhoneNumber = "0888888888";
+                user.PhoneNum = "0888888888";
                 user.UserName = "admin";
                 user.Email = "admin@admin.com";
 

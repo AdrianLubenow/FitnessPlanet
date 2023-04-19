@@ -25,6 +25,7 @@ namespace FitnessPlanet.Controllers
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Address = u.Address,
+                PhoneNumber = u.PhoneNum,
                 Email = u.Email
             }).ToList();
 
@@ -53,6 +54,7 @@ namespace FitnessPlanet.Controllers
                 LastName = user.LastName,
                 Address = user.Address,
                 Email = user.Email,
+                PhoneNumber = user.PhoneNum,
                 UserName = user.UserName
             };
             return View(userToDelete);
