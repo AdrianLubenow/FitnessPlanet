@@ -176,7 +176,7 @@
                         <p class="card-text">Price: $@item.Price</p>
                         @if (item.Discount > 0)
                         {
-                            <p class="card-text">Discount: @item.Discount%</p>
+                            <p class="card-text">Discount: @item.Discount.ToString("N0")%</p>
                         }
                     </div>
                     <div class="card-footer">

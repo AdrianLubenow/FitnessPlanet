@@ -33,10 +33,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <p><strong>Discount:</strong> @Model.Discount %</p>
+                            <p><strong>Discount:</strong> @Model.Discount.ToString("N0")%</p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Total:</strong> $@Model.TotalPrice.ToString("N0")</p>
+                            <p><strong>Total:</strong> $@Model.TotalPrice.ToString("N2")</p>
                         </div>
                     </div>
                 </div>

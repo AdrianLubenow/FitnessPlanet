@@ -30,7 +30,7 @@
                     <p class="card-text">Price: $@Model.Price</p>
                     @if (Model.Discount > 0)
                     {
-                        <p class="card-text text-danger">Discount: @Model.Discount %</p>
+                        <p class="card-text text-danger">Discount: @Model.Discount.ToString("N0")%</p>
                         <p class="card-text font-weight-bold">On sale for only: $@(string.Format("{0:N2}", Model.Price - (Model.Price * Model.Discount / 100)))</p>
                     }
                 </div>
