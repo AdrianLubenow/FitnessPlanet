@@ -4,46 +4,67 @@
     ViewData["Title"] = "Statistics";
 }
 
-<h4 class="text-center">Statistics</h4>
-<div class="text-center">
-    <div class="col-x1-8">
-        <div class="card-group pb-0">
-            <div class="card-columns text-center">
+
+<head><style>
+    .card {
+        background-color: #ffb88c;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .card-header {
+        background-color: #ffa166;
+        color: #fff;
+    }
+    .card-body {
+        background-color: #ffe5cc;
+        color: #000;
+    }
+    .card-body table {
+        width: 100%;
+    }
+    .table td,
+    .table th {
+        padding: 0.75rem;
+    }
+    @@ media screen and (max-width: 768px) {
+        .card {
+            padding: 10px;
+            font-size: 14px;
+        }
+    }
+</style>
+</head>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <center><h3>Statistics</h3></center>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.CountClients)</th>
+                                    <th>@Html.DisplayNameFor(model => model.CountProducts)</th>
+                                    <th>@Html.DisplayNameFor(model => model.CountOrders)</th>
+                                    <th>@Html.DisplayNameFor(model => model.SumOrders)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@Html.DisplayFor(model => model.CountClients)</td>
+                                    <td>@Html.DisplayFor(model => model.CountProducts)</td>
+                                    <td>@Html.DisplayFor(model => model.CountOrders)</td>
+                                    <td>@Html.DisplayFor(model => model.SumOrders)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        <table class="table table-striped" style="width:100%">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CountClients)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CountProducts)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CountOrders)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SumOrders)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        @Html.DisplayFor(model => model.CountClients)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.CountProducts)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.CountOrders)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => model.SumOrders)
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>

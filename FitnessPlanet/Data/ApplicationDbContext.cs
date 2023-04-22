@@ -30,5 +30,6 @@ namespace FitnessPlanet.Data
         public DbSet<FitnessPlanet.Models.Order.OrderConfirmVM> OrderConfirmVM { get; set; }
         public DbSet<FitnessPlanet.Models.Client.ClientIndexVM> ClientIndexVM { get; set; }
         public DbSet<FitnessPlanet.Models.Client.ClientDeleteVM> ClientDeleteVM { get; set; }
+        public DbSet<ContactMessage> ContactMessages { get; set; }
     }
 }

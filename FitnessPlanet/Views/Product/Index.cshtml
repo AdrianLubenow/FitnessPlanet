@@ -129,7 +129,7 @@
 
     @if ((this.User.Identity.IsAuthenticated) && (this.User.IsInRole("Administrator")))
     {
-        <a asp-action="Create" class="btn btn-primary" style="@buttonStyle">Create new products</a>
+        <a asp-action="Create" class="btn btn-primary"><b>Create new products</b></a>
     }
 
     @using (Html.BeginForm("Index", "Product", FormMethod.Get))

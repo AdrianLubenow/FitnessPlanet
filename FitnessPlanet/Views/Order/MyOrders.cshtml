@@ -5,7 +5,109 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h1>My Orders</h1>
+<head>
+    <style>
+        .card {
+            background-color: #ffb88c;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card-header {
+            background-color: #ffa166;
+            color: #fff;
+        }
+
+        .card-body {
+            background-color: #ffe5cc;
+            color: #000;
+        }
+
+            .card-body table {
+                width: 100%;
+            }
+
+        .table td,
+        .table th {
+            padding: 0.75rem;
+        }
+
+        @@ media screen and (max-width: 768px) {
+            .card {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <center><h3>My Orders</h3></center>
+                </div>
+                <div class="card-body">
+                    <p>
+                        <a asp-controller="Product" asp-action="Index" class="btn btn-primary">Back to products</a>
+                    </p>
+                    <form asp-controller="Order" asp-action="MyOrders" method="get">
+                        <div class="input-group mb-3">
+                            <input type="text" name="SearchString" class="form-control" placeholder="Product name">
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit">Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.Picture)</th>
+                                    <th>@Html.DisplayNameFor(model => model.OrderDate)</th>
+                                    <th>@Html.DisplayNameFor(model => model.User)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Product)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Color)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Quantity)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Price)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Discount)</th>
+                                    <th>@Html.DisplayNameFor(model => model.TotalPrice)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image" width="100" />
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.OrderDate)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.User)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Product)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Color)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Discount)%</td>
+                                        <td>@Html.DisplayFor(modelItem => item.TotalPrice)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="font-size: 1.2em; font-weight: bold; text-align: right;">
+                        Owed Money: @Model.Sum(x => x.TotalPrice).ToString("N2")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<h1>My Orders</h1>
 
 <p>
     <a asp-controller="Product" asp-action="Index">Back to products</a>
@@ -20,6 +122,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Picture)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.OrderDate)
             </th>
             <th>
@@ -27,9 +132,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Product)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Picture)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Color)
@@ -57,6 +159,9 @@
         {
             <tr>
                 <td>
+                    <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image" width="100" />
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.OrderDate)
                 </td>
                 <td>
@@ -64,9 +169,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Product)
-                </td>
-                <td>
-                    <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image" width="100" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Color)
@@ -99,100 +201,4 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
-
-@*@model IEnumerable<FitnessPlanet.Models.Order.OrderIndexVM>
-
-@{
-    ViewData["Title"] = "My Orders";
-    Layout = "/Views/Shared/_Layout.cshtml";
-}
-
-<h1>My Orders</h1>
-
-<p>
-    <a asp-controller="Product" asp-action="Index">Back to products</a>
-</p>
-<form asp-controller="Order" asp-action="MyOrders" method="get">
-    <p>
-        Product name: <input type="text" name="SearchString" />
-        <input type="submit" value="Filter" />
-    </p>
-</form>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Product)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Picture)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Color)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Discount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Product)
-            </td>
-            <td>
-                <img src="@Html.DisplayFor(modelItem => item.Picture)" alt="Image" width="100" />
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Color)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Discount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrice)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-        </tr>
-}
-    </tbody>
-</table>
-@section Scripts{
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }*@

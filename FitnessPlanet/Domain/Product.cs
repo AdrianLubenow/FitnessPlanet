@@ -32,7 +32,7 @@ namespace FitnessPlanet.Domain
         [Required]
         [Range(0, 3000)]
         public decimal Price { get; set; }
-        [Range(0, 30)]
+        [Range(0, 100)]
         public decimal Discount { get; set; }
         public virtual IEnumerable<Order> Orders { get; set; } = new List<Order>();
     }

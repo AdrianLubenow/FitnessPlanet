@@ -20,7 +20,7 @@ namespace FitnessPlanet.Controllers
             statistics.CountClients = statisticsService.CountClients();
             statistics.CountProducts = statisticsService.CountProducts();
             statistics.CountOrders = statisticsService.CountOrders();
-            statistics.SumOrders = (int)statisticsService.SumOrders();
+            statistics.SumOrders = statisticsService.SumOrders();
 
             return View(statistics);
         }

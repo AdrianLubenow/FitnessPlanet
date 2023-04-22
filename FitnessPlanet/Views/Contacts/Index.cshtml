@@ -1,0 +1,146 @@
+﻿@model List<FitnessPlanet.Domain.ContactMessage>
+
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<head><style>
+    .card {
+        background-color: #ffb88c;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .card-header {
+        background-color: #ffa166;
+        color: #fff;
+    }
+    .card-body {
+        background-color: #ffe5cc;
+        color: #000;
+    }
+    .card-body table {
+        width: 100%;
+    }
+    .table td,
+    .table th {
+        padding: 0.75rem;
+    }
+    @@ media screen and (max-width: 768px) {
+        .card {
+            padding: 10px;
+            font-size: 14px;
+        }
+    }
+</style>
+</head>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <center><h3>Messages</h3></center>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="d-none d-md-table-cell">Id</th>
+                                    <th class="d-none d-md-table-cell">First Name</th>
+                                    <th class="d-none d-md-table-cell">Last Name</th>
+                                    <th class="d-none d-md-table-cell">Email</th>
+                                    <th class="d-none d-md-table-cell">Message</th>
+                                    <th class="d-none d-md-table-cell">Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var message in Model)
+                                {
+                                    <tr>
+                                        <td class="d-none d-md-table-cell">@message.Id</td>
+                                        <td>@message.FirstName</td>
+                                        <td>@message.LastName</td>
+                                        <td class="d-none d-md-table-cell">@message.Email</td>
+                                        <td class="d-none d-md-table-cell">@message.Message</td>
+                                        <td class="d-none d-md-table-cell">@message.CreatedAt</td>
+                                    </tr>
+                                    <tr class="d-table d-md-none">
+                                        <td>Id:</td>
+                                        <td>@message.Id</td>
+                                    </tr>
+                                    <tr class="d-table d-md-none">
+                                        <td>First Name:</td>
+                                        <td>@message.FirstName</td>
+                                    </tr>
+                                    <tr class="d-table d-md-none">
+                                        <td>Last Name:</td>
+                                        <td>@message.LastName</td>
+                                    </tr>
+                                    <tr class="d-table d-md-none">
+                                        <td>Email:</td>
+                                        <td>@message.Email</td>
+                                    </tr>
+                                    <tr class="d-table d-md-none">
+                                        <td>Message:</td>
+                                        <td>@message.Message</td>
+                                    </tr>
+                                    <tr class="d-table d-md-none">
+                                        <td>Created At:</td>
+                                        <td>@message.CreatedAt</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <center><h3>Contact Messages</h3></center>
+                </div>
+                <div class="card-body">
+                    @if (Model.Count == 0)
+                    {
+                        <p>No messages found.</p>
+                    }
+                    else
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email</th>
+                                    <th>Message</th>
+                                    <th>Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var message in Model)
+                                {
+                                    <tr>
+                                        <td>@message.Id</td>
+                                        <td>@message.FirstName</td>
+                                        <td>@message.LastName</td>
+                                        <td>@message.Email</td>
+                                        <td>@message.Message</td>
+                                        <td>@message.CreatedAt</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
