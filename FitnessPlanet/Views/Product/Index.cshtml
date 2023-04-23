@@ -5,10 +5,6 @@
     ViewData["Title"] = "Products";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
-
-@{
-    var buttonStyle = "background-color: #007bff; color: #fff; padding: 5px 10px; border-radius: 5px; text-decoration: none;";
-}
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -65,10 +61,6 @@
                 box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
             }
 
-        .footer {
-            position: relative;
-        }
-
         .sold-out {
             display: none;
         }
@@ -119,6 +111,9 @@
                 background-color: rgba(255, 255, 255, 0.8);
             }
 
+            .footer{
+                position: relative;
+            }
     </style>
 </head>
 
